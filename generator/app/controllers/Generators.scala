@@ -178,5 +178,16 @@ object Generators {
         status = lib.generator.Status.Proposal,
         codeGenerator = None
       )
+      // ),
+      // CodeGenTarget(
+      //   metaData = Generator(
+      //     key = "custom_scala_models",
+      //     name = "Custom Scala Models POC",
+      //     description = Some("POC of extending Scala Model Provider"),
+      //     language = Some("Scala")
+      //   ),
+      //   status = lib.generator.Status.Beta,
+      //   codeGenerator = Some(scala.models.movio.McKafka)
+      // )
   ).sortBy(_.metaData.key)
 }

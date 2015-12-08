@@ -7,7 +7,8 @@ import lib.Text._
 import lib.generator.CodeGenerator
 import generator.ServiceFileNames
 
-object ScalaCaseClasses extends CodeGenerator {
+object ScalaCaseClasses extends ScalaCaseClasses 
+trait ScalaCaseClasses extends CodeGenerator {
 
   private[this] val MaxNumberOfFields = 21
 
@@ -84,11 +85,14 @@ object ScalaCaseClasses extends CodeGenerator {
 
   def generateCaseClass(model: ScalaModel, unions: Seq[ScalaUnion]): String = {
     model.description.map { desc => ScalaUtil.textToComment(desc) + "\n" }.getOrElse("") +
-    s"case class ${model.name}(${model.argList.getOrElse("")})" + ScalaUtil.extendsClause(unions.map(_.name)).map(s => s" $s").getOrElse("")
+    s"case class ${model.name}(${model.argList.getOrElse("")})" + ScalaUtil.extendsClause(unions.map(_.name)).map(s => s" $s").getOrElse("") + generateBody(model, unions)
   }
 
   private def generatePlayEnums(ssd: ScalaService): String = {
     ssd.enums.map { ScalaEnums(ssd, _).build }.mkString("\n\n")
   }
+
+  // Override this in a subclass to add a body
+  def generateBody(model: ScalaModel, unions: Seq[ScalaUnion]): String = " {}"
 
 }
